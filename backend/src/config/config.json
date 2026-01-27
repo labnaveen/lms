@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "glocalview_lms",
+    "password": "x]L@JiJI?sB16}NC",
+    "database": "glocalview_lms",
+    "host": "mariadb",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "glocalview_lms",
+    "password": "x]L@JiJI?sB16}NC",
+    "database": "glocalview_lms",
+    "host": "mariadb",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "glocalview_lms",
+    "password": "x]L@JiJI?sB16}NC",
+    "database": "glocalview_lms",
+    "host": "mariadb",
+    "dialect": "mysql"
+  }
+}
+ 

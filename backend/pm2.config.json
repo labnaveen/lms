@@ -1,0 +1,60 @@
+{
+  "apps": [
+    {
+      "name": "Glocalview LMS APIs",
+      "script": "src/server.js",
+      "args": "['--debug=7000']",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+      "watch": true,
+      "watch_options": {
+        "usePolling": true,
+        "alwaysStat": true,
+        "useFsEvents": false
+      },
+      "ignore_watch": [
+        "log",
+        "logs",
+        "test",
+        "node_modules",
+        ".git",
+        "temp",
+        "extracted",
+        "uploads",
+        "public"
+      ],
+      "instances": 1,
+      "exec_mode": "cluster",
+      "log_file": "log/pm2_log.log",
+      "out_file": "log/pm2_out.log",
+      "error_file": "log/pm2_err.log",
+
+      "env_development": {
+        "HOST": "localhost",
+        "NODE_ENV": "development",
+        "APP_NAME": "lms",
+        "PORT": 7007,
+
+        "DB_CONNECTION": "mysql",
+        "DB_HOST": "localhost",
+        "DB_USERNAME": "glocalview_lms",
+        "DB_PORT": "3306",
+        "DB_DIALECT": "mysql",
+        "DB_PASSWORD": "x]L@JiJI?sB16}NC",
+        "DB_DATABASE": "glocalview_lms",
+
+        "ENVIRONMENT": "development",
+        "JWT_SECRET": "qwertasdfgzxcvb!@#1234567890)(*&^%$#@!",
+
+        "SMTP_USER": "testingzaflot@gmail.com",
+        "SMTP_PASSWORD": "vrah gvdy yapj whrc",
+        "OPENAI_API_KEY" : "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"
+      },
+
+      "post_update": [
+        "echo App has been updated, running npm install...",
+        "npm install",
+        "echo App is being restarted now"
+      ]
+    }
+  ]
+}

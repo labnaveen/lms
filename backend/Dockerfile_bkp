@@ -1,0 +1,37 @@
+FROM almalinux:10-minimal
+
+# Set environment
+ENV NODE_ENV=production
+
+# Install system dependencies
+RUN microdnf install -y \
+    curl \
+    ca-certificates \
+    shadow-utils \
+ && microdnf clean all
+
+# Enable NodeSource repo & install Node.js 20
+RUN curl -fsSL https://rpm.nodesource.com/setup_20.x | bash - \
+ && microdnf install -y nodejs \
+ && microdnf clean all
+
+# Verify installation
+RUN node -v && npm -v
+
+# Create app directory
+WORKDIR /app
+
+# Copy package files first (for layer caching)
+COPY . .
+
+# Install dependencies
+RUN npm install -g pm2
+RUN npm install mariadb
+RUN npm install --production
+
+
+
+# Expose application port
+EXPOSE 7007
+
+CMD ["sh", "-c", "sleep 15 && node migrate.mjs && pm2-runtime start src/server.js"]
