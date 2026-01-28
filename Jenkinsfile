@@ -47,7 +47,7 @@ pipeline {
         failure {
             echo 'Deployment Failed ❌'
         }
-        always {
+        failure {
             cleanWs()
         }
     }
