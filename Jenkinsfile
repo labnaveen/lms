@@ -46,7 +46,9 @@ pipeline {
         }
         failure {
             echo 'Deployment Failed ❌'
-            cleanWs()
+            node {
+                cleanWs()
+            }
         }
     }
 }
