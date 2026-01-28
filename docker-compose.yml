@@ -72,3 +72,63 @@ networks:
   lms-network:
     driver: bridge
 
+services:
+  frontend:
+    container_name: lms-frontend
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./frontend/nginx/lms-frontend.local.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - lms-network
+
+  backend:
+    container_name: lms-backend
+    build:
+      context: ./backend
+    env_file:
+      - .env
+    ports:
+      - "7007:7007"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - lms-network
+
+  mariadb:
+    container_name: lms-mariadb
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: lms
+      MYSQL_USER: lmsuser
+      MYSQL_PASSWORD: lmspass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lms-network
+
+networks:
+  lms-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+
